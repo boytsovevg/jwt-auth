@@ -1,18 +1,47 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    Unique,
+    CreateDateColumn,
+    UpdateDateColumn
+} from 'typeorm';
+
+import { Length, IsNotEmpty } from 'class-validator';
+import * as bcrypt from 'bcryptjs';
+import jwtConfig from '../config/jwt-config';
 
 @Entity()
+@Unique(["username"])
 export class User {
-
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    firstName: string;
+    @Length(4, 20)
+    username: string;
 
     @Column()
-    lastName: string;
+    @Length(4, 100)
+    password: string;
 
     @Column()
-    age: number;
+    @IsNotEmpty()
+    role: string;
 
+    @Column()
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @Column()
+    @UpdateDateColumn()
+    updatedAt: Date;
+
+    public updatePassword(password: string): void {
+        this.password = bcrypt.hashSync(password, 8);
+    }
+
+    public passwordValid(unencryptedPassword: string): boolean {
+        return bcrypt.compareSync(unencryptedPassword, this.password);
+    }
 }

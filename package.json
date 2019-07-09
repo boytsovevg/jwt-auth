@@ -29,6 +29,7 @@
       "tsc": "tsc",
       "prod": "tsc && node ./build/app.js",
       "dev": "set debug=* && ts-node-dev --respawn --transpileOnly ./src/index.ts",
-      "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
+      "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
+      "migration:new": "typeorm migration:create -n CreateAdminUser"
    }
 }
