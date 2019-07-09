@@ -29,7 +29,8 @@ createConnection().then(async connection => {
     // ...
 
     // start express server
-    app.listen(3000);
+    const PORT = 3005;
+    app.listen(PORT, () => console.log(`Server rules on port: ${PORT}`));
 
     // insert new users for test
     await connection.manager.save(connection.manager.create(User, {
@@ -42,7 +43,5 @@ createConnection().then(async connection => {
         lastName: "Assassin",
         age: 24
     }));
-
-    console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
 
 }).catch(error => console.log(error));
